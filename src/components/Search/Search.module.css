@@ -1,0 +1,23 @@
+.form{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.input{
+  width: 100%;
+  max-width: 300px;
+  padding: 8px 15px;
+  font-size: 1rem;
+  border: 1.5px solid #ccc;
+  border-radius: 20px;
+  outline: none;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+}
+
+input:focus {
+    border-color: orangered;
+    box-shadow: 0 0 8px rgba(255, 69, 0, 0.5);
+  }
+  
