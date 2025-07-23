@@ -1,15 +1,15 @@
 import React from "react";
 import { TiArrowDownOutline, TiArrowUpOutline } from "react-icons/ti";
-import styles from "./Post.module.css";
+import styles from "./PostRating.module.css";
+import { roundRating } from "../../utils/helper";
 
 const PostRating = ({ rating }) => {
-  console.log(rating);
   return (
-    <>
-      <TiArrowDownOutline />
-      {rating}
-      <TiArrowUpOutline />
-    </>
+    <div className={styles.rating}>
+      <TiArrowDownOutline className={styles.rateDown} />
+      {roundRating(rating)}
+      <TiArrowUpOutline className={styles.rateUp} />
+    </div>
   );
 };
 

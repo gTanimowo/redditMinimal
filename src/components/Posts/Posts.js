@@ -1,10 +1,10 @@
 import React from "react";
 import Post from "../Post/Post";
 
-const Posts = ({ timeline }) => {
+const Posts = ({ posts }) => {
   return (
     <div>
-      {timeline.map((post, index) => (
+      {posts.map((post, index) => (
         <div key={index}>
           <Post post={post} />
         </div>

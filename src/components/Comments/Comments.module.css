@@ -1,0 +1,36 @@
+.rating{
+  background-color: rgba(184, 184, 184, 0.24);
+  padding: 8px 15px;
+  border-radius: 30px;
+  text-align: center;
+  font-size: 0.9rem;
+  font-weight: 500;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+
+  
+  .commentList {
+    margin-top: 10px;
+    border-left: 2px solid #edeff1;
+    padding-left: 10px;
+  }
+  
+  .loadMore {
+    background: #0079d3;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 8px 0;
+    font-size: 0.85rem;
+  }
+  
+  .loadMore:hover {
+    background: #005999;
+  }
+  

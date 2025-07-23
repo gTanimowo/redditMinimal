@@ -1,0 +1,32 @@
+.rating{
+    background-color: rgba(184, 184, 184, 0.24);
+    padding: 8px 15px;
+    border-radius: 30px;
+    text-align: center;
+    font-size: 0.9rem;
+    font-weight: 500;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover{
+color: rgba(0, 0, 255, 0.623)
+}
+
+.rateDown, .rateUp{
+    padding: 2px;
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+
+.rateDown:hover{
+    color: red;
+}
+
+.rateUp:hover{
+    color:rgb(23, 168, 23);
+}
+
