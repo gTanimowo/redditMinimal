@@ -1,22 +1,23 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./App.css";
 import MainLayout from "./components/Layout/MainLayout";
-import { getData } from "./utils/data";
+import { getData, getSubreddits } from "./utils/data";
 import { useEffect, useState } from "react";
 import Posts from "./components/Posts/Posts";
 
 function App() {
-  const [rating, setRating] = useState("");
   const [loading, setIsLoading] = useState(false);
   const [error, setIsError] = useState("");
   const [timeline, setIsTimeline] = useState([]);
+  const [subreddit, setSubreddits] = useState([]);
+  console.log(timeline);
 
   useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true);
       try {
         const data = await getData();
-
+        console.log("Fetched popular data:", data);
         if (!data) {
           throw new Error("An error occured, try again!");
         }
@@ -25,6 +26,7 @@ function App() {
         setIsLoading(false);
       } catch (error) {
         setIsError(error.message);
+      } finally {
         setIsLoading(false);
       }
     };
@@ -32,12 +34,21 @@ function App() {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    const handleGetSubreddits = async () => {
+      const data = await getSubreddits();
+      setSubreddits(data.children);
+    };
+    handleGetSubreddits();
+  }, []);
+
   return (
     <div className="App">
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<MainLayout />}>
+          <Route path="/" element={<MainLayout nav={subreddit} />}>
             <Route index element={<Posts posts={timeline} />} />
+            <Route path="r/:subreddit" element={<Posts />} />
           </Route>
         </Routes>
       </BrowserRouter>

@@ -1,7 +1,12 @@
 import avatar from "../assets/avatar.png";
 
 export function getValidThumbnail(post) {
-  const thumb = post.data.thumbnail;
+  let thumb;
+  if (post.data.thumbnail) {
+    thumb = post.data.thumbnail;
+  } else {
+    thumb = post.data.icon_img;
+  }
   if (
     thumb &&
     thumb.startsWith("http") &&
@@ -11,8 +16,6 @@ export function getValidThumbnail(post) {
   }
   return avatar;
 }
-
-
 
 // Round rating to Reddit style (1.2K, 2.5M, etc.)
 export function roundRating(rating) {
@@ -26,4 +29,3 @@ export function roundRating(rating) {
     return (rating / 1000000).toFixed(1).replace(/\.0$/, "") + "M";
   }
 }
-

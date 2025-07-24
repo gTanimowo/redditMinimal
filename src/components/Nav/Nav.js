@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import styles from "./Nav.module.css";
 import { Link } from "react-router-dom";
+import { getSubreddits } from "../../utils/data";
+import PostThumbnail from "../Post/PostThumbnail";
 
 const navObjects = [
   "Home",
@@ -10,7 +12,7 @@ const navObjects = [
   "interesting",
 ];
 
-const Nav = () => {
+const Nav = ({ navSubreddit }) => {
   const [toggle, setToggle] = useState(true);
   const [isTablet, setIsTablet] = useState(window.innerWidth <= 1024);
 
@@ -42,10 +44,14 @@ const Nav = () => {
         </div>
 
         <ul>
-          {navObjects.map((item, index) => (
+          {navSubreddit.map((sub, index) => (
             <li key={index}>
-              <Link to={`${item}`} className={styles.navLink}>
-                {item}
+              <PostThumbnail post={sub} />
+              <Link
+                to={`/r/${sub.data.display_name}`}
+                className={styles.navLink}
+              >
+                {sub.data.display_name}
               </Link>
             </li>
           ))}

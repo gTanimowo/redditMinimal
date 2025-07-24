@@ -3,7 +3,7 @@ import Header from "../Header/Header";
 import Nav from "../Nav/Nav";
 import { Outlet } from "react-router-dom";
 
-const MainLayout = () => {
+const MainLayout = ({ nav }) => {
   return (
     <>
       <Header />
@@ -12,7 +12,7 @@ const MainLayout = () => {
           <Outlet />
         </div>
         <div style={{ flex: "0 0 25%" }}>
-          <Nav />
+          <Nav navSubreddit={nav} />
         </div>
       </div>
     </>

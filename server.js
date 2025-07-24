@@ -46,6 +46,38 @@ app.get("/comments/:subreddit/:id", async (req, res) => {
   }
 });
 
+//Endpoint for subreddits for navigation
+app.get("/api/subreddits", async (req, res) => {
+  try {
+    const response = await fetch(
+      "https://www.reddit.com/subreddits/popular.json?limit=20"
+    );
+    const data = await response.json();
+    res.json(data);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Failed to fetch subreddits" });
+  }
+});
+
+//Endpoint to get subreddits data
+app.get("/api/subreddit/:name", async (req, res) => {
+  const { name } = req.params;
+  const url = `https://www.reddit.com/r/${name}.json`;
+
+  try {
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`Error: ${response.status}`);
+    }
+    const data = await response.json();
+    res.json(data); // Send Reddit data back to your frontend
+  } catch (error) {
+    console.error("Reddit fetch error:", error);
+    res.status(500).json({ error: "Failed to fetch subreddit posts" });
+  }
+});
+
 app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);
 });
