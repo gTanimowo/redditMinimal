@@ -21,9 +21,7 @@ const Post = ({ post }) => {
   const postId = post.data.id;
   const redditScore = post.data.score;
 
-  const voteScore = useSelector(
-    (state) => state.votes.votes[postId] ?? redditScore
-  );
+  const voteScore = useSelector((state) => state.votes.votes[postId] || 0);
   const displayedScore = redditScore + voteScore;
 
   const handleUpvote = () => {

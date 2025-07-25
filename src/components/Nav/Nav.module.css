@@ -12,7 +12,7 @@
 
 }
 
-/* Nav hidden by sliding off screen to left */
+
 .navClosed {
   position: fixed;
   top: 0;
@@ -21,7 +21,7 @@
   z-index: 1000;
 }
 
-/* Nav visible by sliding in */
+
 .navOpen {
   position: fixed;
   top: 0;
@@ -30,7 +30,7 @@
   z-index: 1000;
 }
 
-/* Always visible on desktop, static position */
+
 @media (min-width: 1025px) {
   .nav {
     position: static;

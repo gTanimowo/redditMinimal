@@ -35,7 +35,6 @@ export async function getSubreddits() {
     }
     const jsonData = await response.json();
     const sub = jsonData.data;
-    console.log(sub);
     return sub;
   } catch (error) {
     console.log(error.message);

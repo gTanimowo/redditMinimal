@@ -17,7 +17,6 @@ const Nav = ({ navSubreddit }) => {
 
   return (
     <>
-      {/* Burger button always top right on tablet */}
       {isTablet && (
         <button
           aria-label={isOpen ? "Close navigation menu" : "Open navigation menu"}
@@ -28,7 +27,7 @@ const Nav = ({ navSubreddit }) => {
         </button>
       )}
 
-      {/* Nav slides in only if open on tablet, otherwise always visible on desktop */}
+
       <nav
         className={`${styles.nav} ${
           isTablet ? (isOpen ? styles.navOpen : styles.navClosed) : ""

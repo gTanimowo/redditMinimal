@@ -23,14 +23,12 @@ const MainLayout = ({ nav }) => {
           <Outlet />
         </div>
 
-        {/* Only render Nav on large screens or toggle button */}
         {!isTablet && (
           <div className={styles.navSidebar}>
             <Nav navSubreddit={nav} />
           </div>
         )}
 
-        {/* For tablets, render Nav component to handle toggle burger menu */}
         {isTablet && <Nav navSubreddit={nav} />}
       </div>
     </>

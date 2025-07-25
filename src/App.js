@@ -50,7 +50,10 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<MainLayout nav={subreddit} />}>
-            <Route index element={<Posts posts={timeline} />} />
+            <Route
+              index
+              element={<Posts posts={timeline} isloading={loading} />}
+            />
             <Route path="r/:subreddit" element={<Posts />} />
             <Route path="*" element={<Error />} />
           </Route>
