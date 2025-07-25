@@ -2,7 +2,14 @@
     background-color: #fff;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
     display: grid;
-    grid-template-columns: repeat(3, 1fr);  
+    grid-template-columns: repeat(3, 1fr); 
+    position: fixed;
+    top: 0;           
+    left: 0;        
+    width: 100%;      
+    z-index: 1000;    
+
+      
 }
 
 .logo{
@@ -25,3 +32,10 @@ max-width: fit-content;
     color: orangered;
 }
 
+@media (max-width: 1024px) {
+    .logoContainer p{
+        font-weight: 500;
+        font-size: 0.9rem;
+    }
+  }
+  

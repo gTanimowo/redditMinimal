@@ -1,0 +1,32 @@
+.layoutContainer {
+    display: flex;
+    margin-top: 15px;
+  }
+  
+  .contentFullWidth {
+    flex: 1 1 100%;
+  }
+  
+  .contentWithNav {
+    flex: 1 1 75%;
+  }
+  
+  .navSidebar {
+    flex: 0 0 25%;
+  }
+  
+  @media (max-width: 1024px) {
+    .navSidebar {
+      display: none;
+    }
+
+    .layoutContainer {
+
+        margin-top: 50px;
+      }
+
+      .contentWithNav {
+        flex: 1 1 100%;
+      }
+  }
+  

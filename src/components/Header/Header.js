@@ -13,7 +13,7 @@ const Header = () => {
         </p>
       </div>
 
-      <Search />
+      <Search  />
     </div>
   );
 };

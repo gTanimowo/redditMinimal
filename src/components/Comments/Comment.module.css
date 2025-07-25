@@ -9,12 +9,28 @@
     font-size: 0.8rem;
     font-weight: bold;
     color: #1a1a1b;
-    margin-bottom: 5px;
+    margin-bottom: 0;
   }
   
   .body {
     font-size: 0.85rem;
     color: #333;
     line-height: 1.2;
+  }
+  
+  .commentInteraction{
+    display: flex;
+  justify-content: flex-start;
+  align-items: baseline;
+  gap: 8px;
+  }
+
+  .timePosted{
+    color: #9b9b9be5;
+   margin: 0;           
+  padding: 0;
+  display: flex;      
+  align-items: center;   
+  font-size: 0.85rem;  
   }
   

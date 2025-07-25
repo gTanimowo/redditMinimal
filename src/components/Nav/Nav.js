@@ -1,19 +1,10 @@
 import React, { useState, useEffect } from "react";
 import styles from "./Nav.module.css";
-import { Link } from "react-router-dom";
-import { getSubreddits } from "../../utils/data";
+import { NavLink } from "react-router-dom";
 import PostThumbnail from "../Post/PostThumbnail";
 
-const navObjects = [
-  "Home",
-  "Askreddit",
-  "NoStupidQuestions",
-  "facepalm",
-  "interesting",
-];
-
 const Nav = ({ navSubreddit }) => {
-  const [toggle, setToggle] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
   const [isTablet, setIsTablet] = useState(window.innerWidth <= 1024);
 
   useEffect(() => {
@@ -22,62 +13,50 @@ const Nav = ({ navSubreddit }) => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const handleToggle = () => setToggle(!toggle);
-
-  const NavBar = () => {
-    return (
-      <div className={styles.nav}>
-        <div className={styles.navTitle}>
-          <h2>Subreddits</h2>
-          {isTablet && (
-            <p
-              tabIndex={0}
-              role="button"
-              onClick={handleToggle}
-              onKeyDown={(e) => {
-                if (e.key === "Enter" || e.key === " ") handleToggle();
-              }}
-            >
-              ✖
-            </p>
-          )}
-        </div>
-
-        <ul>
-          {navSubreddit.map((sub, index) => (
-            <li key={index}>
-              <PostThumbnail post={sub} />
-              <Link
-                to={`/r/${sub.data.display_name}`}
-                className={styles.navLink}
-              >
-                {sub.data.display_name}
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </div>
-    );
-  };
-
-  // Burger button JSX
-  const BurgerSign = () => {
-    return (
-      <button
-        onClick={handleToggle}
-        aria-label="Open navigation menu"
-        className={styles.navBurgerBtn}
-      >
-        ☰
-      </button>
-    );
-  };
+  const toggleNav = () => setIsOpen(!isOpen);
 
   return (
     <>
-      {!isTablet && <NavBar />}
+      {/* Burger button always top right on tablet */}
+      {isTablet && (
+        <button
+          aria-label={isOpen ? "Close navigation menu" : "Open navigation menu"}
+          onClick={toggleNav}
+          className={styles.navBurgerBtn}
+        >
+          {isOpen ? "✖" : "☰"}
+        </button>
+      )}
 
-      {isTablet && (toggle ? <NavBar /> : <BurgerSign />)}
+      {/* Nav slides in only if open on tablet, otherwise always visible on desktop */}
+      <nav
+        className={`${styles.nav} ${
+          isTablet ? (isOpen ? styles.navOpen : styles.navClosed) : ""
+        }`}
+      >
+        <div className={styles.navTitle}>
+          <h2>Subreddits</h2>
+        </div>
+        <ul>
+          {navSubreddit.map((sub, index) => (
+            <NavLink
+              key={index}
+              to={`/r/${sub.data.display_name}`}
+              className={({ isActive }) =>
+                isActive
+                  ? `${styles.navItem} ${styles.activeNav}`
+                  : styles.navItem
+              }
+              onClick={() => isTablet && setIsOpen(false)}
+            >
+              <li className={styles.navList}>
+                <PostThumbnail post={sub} />
+                <span className={styles.navText}>{sub.data.display_name}</span>
+              </li>
+            </NavLink>
+          ))}
+        </ul>
+      </nav>
     </>
   );
 };

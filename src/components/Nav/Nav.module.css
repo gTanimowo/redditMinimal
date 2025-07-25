@@ -1,110 +1,121 @@
-.nav{
-    background-color: #fff;
-    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-    padding-bottom: 30px;
-    margin-top: 20px;
-    border-radius: 5px;
-}
-
-.nav ul{
-    list-style: none;
-    margin-bottom: 10px;
-    margin-top: 0;
-  
-}
-
-
-.nav ul li{
-    border-width: 15px;
-    padding: 12px;
-    border-radius: 2px;
-    margin: 0 5px;
-    max-width: 85%;
-    cursor: pointer;
-    transition: background-color 0.3s ease, color 0.3s ease;
-    font-size: 1rem;
-    display: flex;
-    align-items: center;
-}
-
-li:hover{
-    background-color:  rgba(212, 212, 212, 0.404);  
-}
-
-li:focus {
-  background-color: rgba(0, 0, 248, 0.158);
-  outline: none; 
-  border-left: 4px solid rgba(18, 18, 255, 0.925);
-  transition: background-color 0.3s ease, border-left-color 0.3s ease;
-}
-
-.navLink{
-    text-decoration: none;
-    color:  rgba(71, 71, 71, 0.938);;
-}
-
-.navTitle{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin: 0 15px;
-    padding: 0 20px;
-    color: rgb(95, 95, 95);
-}
-
-/* Hide nav by default on tablet and smaller */
-
-  
-  /* Show nav on larger screens */
-  @media (max-width: 1025px) {
-    .nav {
-      display: block !important;
-    }
-
-    .navTitle h2{
-    font-size: 1.2rem;
-    }
-
-    .navTitle button:hover{
-        transform: translateY(-2px);
-        box-shadow: 0 12px 20px rgba(0, 0, 0, 0);
-        color: orangered;
-        cursor: pointer;
-        }
-    
-
-    .nav ul{
-        padding-left: 10px;
-      
-    }
-    
-    .nav ul li{
-        font-size: 1rem;
-        font-weight: 500;
-    }
-
-    .navTitle{
-        margin: 0 5px;
-        padding: 0 10px;
-    }
-
-    .navBurgerBtn{
-    background-color: #fff;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-  box-shadow:rgba(0, 0, 0, 0.24) 0px 3px 8px;;
-    float: inline-end;
-    padding: 5px 10px;
-    margin-top: 20px;
-    font-weight: 500;
-    cursor: pointer;
-    border-radius: 2px;
-    }
-
-    .navBurgerBtn:active,
-.navBurgerBtn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 12px 20px rgba(0,0,0,0.3);
+.nav {
+  background-color: #fff;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  padding-bottom: 30px;
+  margin-top: 50px;
+  border-radius: 5px;
+  width: 250px;
+  height: 100vh;
+  overflow-y: auto;
+  position: relative;
+  transition: transform 0.3s ease;
 
 }
+
+/* Nav hidden by sliding off screen to left */
+.navClosed {
+  position: fixed;
+  top: 0;
+  left: 0;
+  transform: translateX(-100%);
+  z-index: 1000;
+}
+
+/* Nav visible by sliding in */
+.navOpen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  transform: translateX(0);
+  z-index: 1000;
+}
+
+/* Always visible on desktop, static position */
+@media (min-width: 1025px) {
+  .nav {
+    position: static;
+    transform: none !important;
+    height: auto;
+    width: 100%;
+   
   }
-  
+}
+
+.nav ul {
+  list-style: none;
+  margin: 0 0 10px 0;
+  padding-left: 0;
+}
+
+.nav ul li {
+  padding: 12px;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+}
+
+.nav ul li:hover {
+  background-color: rgba(212, 212, 212, 0.4);
+}
+
+.navTitle {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 15px 15px;
+  padding: 0 20px;
+  color: rgb(95, 95, 95);
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.navItem {
+  text-decoration: none;
+  color: black;
+  display: block;
+}
+
+.navList {
+  display: flex;
+  align-items: center;
+  padding: 8px 12px;
+  border-left: 4px solid transparent;
+  transition: all 0.3s ease;
+}
+
+.activeNav {
+  border-left: 4px solid blue;
+  background-color: #e6f0ff;
+  font-weight: bold;
+}
+
+.navText {
+  margin-left: 8px;
+}
+
+.navBurgerBtn {
+  position: fixed;
+  top: 5px;
+  right: 2px;
+  background-color: #fff;
+  box-shadow: rgba(0, 0, 0, 0.123) 0px 3px 8px;
+  padding: 8px 12px;
+  font-weight: 400;
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 1rem;
+  user-select: none;
+  border: none;
+  z-index: 1100;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.navBurgerBtn:hover,
+.navBurgerBtn:focus {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 20px rgba(0, 0, 0, 0.3);
+  outline: none;
+}

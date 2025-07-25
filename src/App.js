@@ -4,20 +4,19 @@ import MainLayout from "./components/Layout/MainLayout";
 import { getData, getSubreddits } from "./utils/data";
 import { useEffect, useState } from "react";
 import Posts from "./components/Posts/Posts";
+import Error from "./components/Error/Error";
 
 function App() {
   const [loading, setIsLoading] = useState(false);
   const [error, setIsError] = useState("");
   const [timeline, setIsTimeline] = useState([]);
   const [subreddit, setSubreddits] = useState([]);
-  console.log(timeline);
 
   useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true);
       try {
         const data = await getData();
-        console.log("Fetched popular data:", data);
         if (!data) {
           throw new Error("An error occured, try again!");
         }
@@ -42,6 +41,10 @@ function App() {
     handleGetSubreddits();
   }, []);
 
+  if (error) {
+    return <Error message={error} />;
+  }
+
   return (
     <div className="App">
       <BrowserRouter>
@@ -49,6 +52,7 @@ function App() {
           <Route path="/" element={<MainLayout nav={subreddit} />}>
             <Route index element={<Posts posts={timeline} />} />
             <Route path="r/:subreddit" element={<Posts />} />
+            <Route path="*" element={<Error />} />
           </Route>
         </Routes>
       </BrowserRouter>

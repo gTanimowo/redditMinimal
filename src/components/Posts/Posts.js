@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import Post from "../Post/Post";
 import { getDataBySubreddit } from "../../utils/data";
 import SkeletonComment from "../Comments/SkeletonComment";
+import { useSelector } from "react-redux";
 
 const Posts = ({ posts }) => {
   const { subreddit } = useParams();
@@ -27,38 +28,27 @@ const Posts = ({ posts }) => {
     fetchSubredditPosts();
   }, [subreddit]);
 
-  if (subreddit) {
-    return (
-      <div>
-        <h2>r/{subreddit}</h2>
-        {loading ? (
-          <SkeletonComment />
-        ) : (
-          subredditPosts.map((post) => <Post key={post.data.id} post={post} />)
-        )}
-      </div>
-    );
-  }
+  const searchTerm = useSelector((state) => state.search.search);
 
-  // if no subredditName (home page)
+  const currentPosts = subreddit ? subredditPosts : posts ?? [];
 
-  if (!subreddit) {
-    // Only check posts when no subreddit selected
-    if (loading)
-      return (
-        <div>
-          <SkeletonComment />
-        </div>
-      );
-    if (!posts || posts.length === 0) return <div>No posts to display</div>;
-  }
+  const filteredPosts =
+    searchTerm && searchTerm.trim() !== ""
+      ? currentPosts.filter((post) =>
+          post.data.title.toLowerCase().includes(searchTerm.toLowerCase())
+        )
+      : currentPosts;
+
   return (
     <div>
-      <h2>Popular Feed</h2>
-
-      {posts?.map((post) => (
-        <Post key={post.data.id} post={post} />
-      ))}
+      <h2>{subreddit ? `r/${subreddit}` : "Popular Feed"}</h2>
+      {loading ? (
+        <SkeletonComment />
+      ) : filteredPosts.length > 0 ? (
+        filteredPosts.map((post) => <Post key={post.data.id} post={post} />)
+      ) : (
+        <p>No posts found</p>
+      )}
     </div>
   );
 };
