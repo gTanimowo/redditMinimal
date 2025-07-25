@@ -1,5 +1,5 @@
 export async function getData() {
-  const url = "http://localhost:5000/reddit";
+  const url = "https://redditminimal.onrender.com/reddit";
   try {
     const response = await fetch(url);
     if (!response.ok) {
@@ -14,7 +14,7 @@ export async function getData() {
 }
 
 export async function getComments(subreddit, id) {
-  const url = `http://localhost:5000/comments/${subreddit}/${id}`;
+  const url = `https://redditminimal.onrender.com/comments/${subreddit}/${id}`;
   try {
     const response = await fetch(url);
     if (!response.ok) {
@@ -27,7 +27,7 @@ export async function getComments(subreddit, id) {
 }
 
 export async function getSubreddits() {
-  const url = "http://localhost:5000/api/subreddits";
+  const url = "https://redditminimal.onrender.com/api/subreddits";
   try {
     const response = await fetch(url);
     if (!response.ok) {
@@ -42,7 +42,7 @@ export async function getSubreddits() {
 }
 
 export async function getDataBySubreddit(name) {
-  const url = `http://localhost:5000/api/subreddit/${name}`;
+  const url = `https://redditminimal.onrender.com/api/subreddit/${name}`;
 
   try {
     const response = await fetch(url);
