@@ -10,13 +10,11 @@ app.get("/", (req, res) => {
   res.send("Server is running!");
 });
 
-// Endpoint for Reddit posts
+// Endpoint for Reddit popular posts
 app.get("/reddit", async (req, res) => {
   try {
     const response = await fetch("https://www.reddit.com/r/popular.json", {
-      headers: {
-        "User-Agent": "MyRedditApp/1.0",
-      },
+      headers: { "User-Agent": "MyRedditApp/1.0" },
     });
 
     if (!response.ok) {
@@ -32,26 +30,53 @@ app.get("/reddit", async (req, res) => {
   }
 });
 
-// Endpoint for Reddit comments
+// Endpoint for Reddit comments of a post
 app.get("/comments/:subreddit/:id", async (req, res) => {
   const { subreddit, id } = req.params;
   try {
     const response = await fetch(
-      `https://www.reddit.com/r/${subreddit}/comments/${id}.json`
+      `https://www.reddit.com/r/${subreddit}/comments/${id}.json`,
+      {
+        headers: { "User-Agent": "MyRedditApp/1.0" },
+      }
     );
+
+    if (!response.ok) {
+      console.error(
+        "Reddit comments API error:",
+        response.status,
+        response.statusText
+      );
+      return res.status(500).json({ error: "Failed to fetch Reddit comments" });
+    }
+
     const data = await response.json();
     res.json(data[1].data.children); // Send only comments
   } catch (err) {
+    console.error("Fetch error:", err);
     res.status(500).json({ error: "Failed to fetch Reddit comments" });
   }
 });
 
-//Endpoint for subreddits for navigation
+// Endpoint for popular subreddits (navigation)
 app.get("/api/subreddits", async (req, res) => {
   try {
     const response = await fetch(
-      "https://www.reddit.com/subreddits/popular.json?limit=20"
+      "https://www.reddit.com/subreddits/popular.json?limit=20",
+      {
+        headers: { "User-Agent": "MyRedditApp/1.0" },
+      }
     );
+
+    if (!response.ok) {
+      console.error(
+        "Reddit subreddits API error:",
+        response.status,
+        response.statusText
+      );
+      return res.status(500).json({ error: "Failed to fetch subreddits" });
+    }
+
     const data = await response.json();
     res.json(data);
   } catch (err) {
@@ -60,18 +85,27 @@ app.get("/api/subreddits", async (req, res) => {
   }
 });
 
-//Endpoint to get subreddits data
+// Endpoint to get posts from a specific subreddit
 app.get("/api/subreddit/:name", async (req, res) => {
   const { name } = req.params;
   const url = `https://www.reddit.com/r/${name}.json`;
 
   try {
-    const response = await fetch(url);
+    const response = await fetch(url, {
+      headers: { "User-Agent": "MyRedditApp/1.0" },
+    });
+
     if (!response.ok) {
-      throw new Error(`Error: ${response.status}`);
+      console.error(
+        "Reddit subreddit API error:",
+        response.status,
+        response.statusText
+      );
+      return res.status(500).json({ error: "Failed to fetch subreddit posts" });
     }
+
     const data = await response.json();
-    res.json(data); // Send Reddit data back to your frontend
+    res.json(data);
   } catch (error) {
     console.error("Reddit fetch error:", error);
     res.status(500).json({ error: "Failed to fetch subreddit posts" });

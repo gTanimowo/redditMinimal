@@ -1,21 +1,5 @@
 import { useNavigate } from "react-router-dom";
 
-const ErrorPage = ({ message }) => {
-  const navigate = useNavigate();
-
-  return (
-    <div style={styles.container}>
-      <div style={styles.card}>
-        <h1 style={styles.title}>Oops! Something went wrong.</h1>
-        <p style={styles.message}>{message}</p>
-        <button style={styles.button} onClick={() => navigate("/")}>
-          Back to Popular Feed
-        </button>
-      </div>
-    </div>
-  );
-};
-
 const styles = {
   container: {
     minHeight: "100vh",
@@ -56,4 +40,20 @@ const styles = {
   },
 };
 
-export default ErrorPage;
+const Error = ({ message }) => {
+  const navigate = useNavigate();
+
+  return (
+    <div style={styles.container}>
+      <div style={styles.card}>
+        <h1 style={styles.title}>Oops! Something went wrong.</h1>
+        <p style={styles.message}>{message}</p>
+        <button style={styles.button} onClick={() => navigate("/")}>
+          Back to Popular Feed
+        </button>
+      </div>
+    </div>
+  );
+};
+
+export default Error;

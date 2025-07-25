@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./SkeletonComment.module.css";
 
-const SkeletonComment = ({ count = 3 }) => {
+const SkeletonComment = ({ count = 5 }) => {
   return (
     <div>
       {Array.from({ length: count }).map((_, index) => (

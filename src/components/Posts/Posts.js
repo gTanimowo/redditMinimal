@@ -4,8 +4,9 @@ import Post from "../Post/Post";
 import { getDataBySubreddit } from "../../utils/data";
 import SkeletonComment from "../Comments/SkeletonComment";
 import { useSelector } from "react-redux";
+import Error from "../Error/Error";
 
-const Posts = ({ posts, isloading }) => {
+const Posts = ({ posts, isloading, isError }) => {
   const { subreddit } = useParams();
   const [subredditPosts, setSubredditPosts] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -42,7 +43,9 @@ const Posts = ({ posts, isloading }) => {
   return (
     <div>
       <h2>{subreddit ? `r/${subreddit}` : "Popular Feed"}</h2>
-      {loading || isloading ? (
+      {isError ? (
+        <Error />
+      ) : loading || isloading ? (
         <SkeletonComment />
       ) : filteredPosts.length > 0 ? (
         filteredPosts.map((post) => <Post key={post.data.id} post={post} />)

@@ -10,7 +10,7 @@ import { timeAgo } from "../../utils/helper";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleUpvote, toggleDownvote } from "../../store/VoteSlice";
 
-const Post = ({ post }) => {
+const Post = ({ post}) => {
   const [showComments, setShowComments] = useState(false);
   const [comments, setComments] = useState([]);
   const [loadingComments, setLoadingComments] = useState(false);

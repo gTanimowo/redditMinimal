@@ -52,7 +52,9 @@ function App() {
           <Route path="/" element={<MainLayout nav={subreddit} />}>
             <Route
               index
-              element={<Posts posts={timeline} isloading={loading} />}
+              element={
+                <Posts posts={timeline} isloading={loading} isError={error} />
+              }
             />
             <Route path="r/:subreddit" element={<Posts />} />
             <Route path="*" element={<Error />} />
