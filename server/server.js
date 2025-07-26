@@ -8,17 +8,19 @@ const PORT = 5000;
 app.use(cors());
 
 const redditHeaders = {
-  "User-Agent": "MyRedditApp/1.0",
+  "User-Agent": "MyRedditApp/1.0 (by /u/goldendentan)",
 };
 
 // Health check
 app.get("/", (req, res) => {
   res.send("Server is running!");
 });
+const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 // Fetch popular posts
 app.get("/reddit", async (req, res) => {
   try {
+    await delay(1000);
     const response = await fetch("https://www.reddit.com/r/popular.json", {
       headers: redditHeaders,
     });
@@ -40,6 +42,7 @@ app.get("/reddit", async (req, res) => {
 app.get("/comments/:subreddit/:id", async (req, res) => {
   const { subreddit, id } = req.params;
   try {
+    await delay(1000);
     const response = await fetch(
       `https://www.reddit.com/r/${subreddit}/comments/${id}.json`,
       { headers: redditHeaders }
@@ -65,6 +68,7 @@ app.get("/comments/:subreddit/:id", async (req, res) => {
 // Fetch popular subreddits
 app.get("/api/subreddits", async (req, res) => {
   try {
+    await delay(1000);
     const response = await fetch(
       "https://www.reddit.com/subreddits/popular.json?limit=20",
       {
@@ -93,6 +97,7 @@ app.get("/api/subreddits", async (req, res) => {
 app.get("/api/subreddit/:name", async (req, res) => {
   const { name } = req.params;
   try {
+    await delay(1000);
     const response = await fetch(`https://www.reddit.com/r/${name}.json`, {
       headers: redditHeaders,
     });
