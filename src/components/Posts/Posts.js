@@ -6,10 +6,11 @@ import SkeletonComment from "../Comments/SkeletonComment";
 import { useSelector } from "react-redux";
 import Error from "../Error/Error";
 
-const Posts = ({ posts, isloading, isError }) => {
+const Posts = ({ posts, isloading }) => {
   const { subreddit } = useParams();
   const [subredditPosts, setSubredditPosts] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchSubredditPosts = async () => {
@@ -20,7 +21,7 @@ const Posts = ({ posts, isloading, isError }) => {
         const data = await getDataBySubreddit(subreddit);
         setSubredditPosts(data);
       } catch (err) {
-        alert.error(err);
+        setError(err);
       } finally {
         setLoading(false);
       }
@@ -43,7 +44,7 @@ const Posts = ({ posts, isloading, isError }) => {
   return (
     <div>
       <h2>{subreddit ? `r/${subreddit}` : "Popular Feed"}</h2>
-      {isError ? (
+      {error ? (
         <Error />
       ) : loading || isloading ? (
         <SkeletonComment />
