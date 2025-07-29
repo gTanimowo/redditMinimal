@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import Header from "../Header/Header";
 
 const styles = {
   container: {
@@ -45,6 +46,7 @@ const Error = ({ message }) => {
 
   return (
     <div style={styles.container}>
+      <Header />
       <div style={styles.card}>
         <h1 style={styles.title}>Oops! Something went wrong.</h1>
         <p style={styles.message}>{message}</p>

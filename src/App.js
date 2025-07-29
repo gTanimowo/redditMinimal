@@ -2,9 +2,13 @@ import { Routes, Route } from "react-router-dom";
 import "./App.css";
 import MainLayout from "./components/Layout/MainLayout";
 import { getData, getSubreddits } from "./utils/data";
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense, lazy } from "react";
 import Posts from "./components/Posts/Posts";
 import Error from "./components/Error/Error";
+import SkeletonComment from "./components/Comments/SkeletonComment";
+
+const Posts = lazy(() => import("./Posts"));
+const Error = lazy(() => import("./Error"));
 
 function App() {
   const [loading, setIsLoading] = useState(false);
@@ -47,18 +51,20 @@ function App() {
 
   return (
     <div className="App">
-      <Routes>
-        <Route path="/" element={<MainLayout nav={subreddit} />}>
-          <Route
-            index
-            element={
-              <Posts posts={timeline} isloading={loading} isError={error} />
-            }
-          />
-          <Route path="r/:subreddit" element={<Posts />} />
-          <Route path="*" element={<Error />} />
-        </Route>
-      </Routes>
+      <Suspense fallback={<SkeletonComment />}>
+        <Routes>
+          <Route path="/" element={<MainLayout nav={subreddit} />}>
+            <Route
+              index
+              element={
+                <Posts posts={timeline} isloading={loading} isError={error} />
+              }
+            />
+            <Route path="r/:subreddit" element={<Posts />} />
+            <Route path="*" element={<Error />} />
+          </Route>
+        </Routes>
+      </Suspense>
     </div>
   );
 }
