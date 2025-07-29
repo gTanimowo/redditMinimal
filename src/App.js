@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import "./App.css";
 import MainLayout from "./components/Layout/MainLayout";
 import { getData, getSubreddits } from "./utils/data";
@@ -47,20 +47,18 @@ function App() {
 
   return (
     <div className="App">
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<MainLayout nav={subreddit} />}>
-            <Route
-              index
-              element={
-                <Posts posts={timeline} isloading={loading} isError={error} />
-              }
-            />
-            <Route path="r/:subreddit" element={<Posts />} />
-            <Route path="*" element={<Error />} />
-          </Route>
-        </Routes>
-      </BrowserRouter>
+      <Routes>
+        <Route path="/" element={<MainLayout nav={subreddit} />}>
+          <Route
+            index
+            element={
+              <Posts posts={timeline} isloading={loading} isError={error} />
+            }
+          />
+          <Route path="r/:subreddit" element={<Posts />} />
+          <Route path="*" element={<Error />} />
+        </Route>
+      </Routes>
     </div>
   );
 }

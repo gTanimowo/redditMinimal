@@ -43,7 +43,9 @@ const Posts = ({ posts, isloading }) => {
 
   return (
     <div>
-      <h2>{subreddit ? `r/${subreddit}` : "Popular Feed"}</h2>
+      <h2 style={{ marginTop: "95px", paddingLeft: "30px" }}>
+        {subreddit ? `r/${subreddit}` : "Popular Feed"}
+      </h2>
       {error ? (
         <Error />
       ) : loading || isloading ? (

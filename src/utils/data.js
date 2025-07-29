@@ -1,7 +1,8 @@
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+
 export async function getData() {
-  const url = "https://redditminimal.onrender.com/reddit";
   try {
-    const response = await fetch(url);
+    const response = await fetch(`${API_BASE_URL}/reddit`);
     if (!response.ok) {
       throw new Error(`Response: ${response.status}`);
     }
@@ -14,9 +15,8 @@ export async function getData() {
 }
 
 export async function getComments(subreddit, id) {
-  const url = `https://redditminimal.onrender.com/comments/${subreddit}/${id}`;
   try {
-    const response = await fetch(url);
+    const response = await fetch(`${API_BASE_URL}/comments/${subreddit}/${id}`);
     if (!response.ok) {
       throw new Error(`Response: ${response.status}`);
     }
@@ -27,9 +27,8 @@ export async function getComments(subreddit, id) {
 }
 
 export async function getSubreddits() {
-  const url = "https://redditminimal.onrender.com/api/subreddits";
   try {
-    const response = await fetch(url);
+    const response = await fetch(`${API_BASE_URL}/api/subreddits`);
     if (!response.ok) {
       throw new Error(`Response: ${response.status}`);
     }
@@ -42,10 +41,8 @@ export async function getSubreddits() {
 }
 
 export async function getDataBySubreddit(name) {
-  const url = `https://redditminimal.onrender.com/api/subreddit/${name}`;
-
   try {
-    const response = await fetch(url);
+    const response = await fetch(`${API_BASE_URL}/api/subreddit/${name}`);
     if (!response.ok) {
       throw new Error(`Request failed: ${response.status}`);
     }

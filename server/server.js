@@ -1,120 +1,127 @@
+require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
-const fetch = require("node-fetch");
+const axios = require("axios");
 
 const app = express();
 const PORT = 5000;
 
 app.use(cors());
 
-const redditHeaders = {
-  "User-Agent": "MyRedditApp/1.0 (by /u/goldendentan)",
-};
+const CLIENT_ID = process.env.REDDIT_CLIENT_ID;
+const CLIENT_SECRET = process.env.REDDIT_CLIENT_SECRET;
+const USER_AGENT = process.env.REDDIT_USER_AGENT;
+
+let accessToken;
+
+// Fetch a new OAuth2 token (runs on startup and refreshes every hour)
+async function refreshToken() {
+  try {
+    const response = await axios.post(
+      "https://www.reddit.com/api/v1/access_token",
+      "grant_type=client_credentials",
+      {
+        auth: { username: CLIENT_ID, password: CLIENT_SECRET },
+        headers: { "User-Agent": USER_AGENT },
+      }
+    );
+    accessToken = response.data.access_token;
+    console.log("OAuth2 token refreshed!");
+    setTimeout(refreshToken, 3600 * 1000); // Refresh every 1 hour
+  } catch (err) {
+    console.error("OAuth2 token error:", err.message);
+  }
+}
+
+// Initialize OAuth2 token
+refreshToken();
+
+// Helper to delay requests (avoid rate limits)
+const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 // Health check
 app.get("/", (req, res) => {
   res.send("Server is running!");
 });
-const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-// Fetch popular posts
+// Fetch popular posts (OAuth2)
 app.get("/reddit", async (req, res) => {
   try {
     await delay(1000);
-    const response = await fetch("https://www.reddit.com/r/popular.json", {
-      headers: redditHeaders,
-    });
-
-    if (!response.ok) {
-      console.error("Reddit API error:", response.status, response.statusText);
-      return res.status(500).json({ error: "Failed to fetch Reddit data" });
-    }
-
-    const data = await response.json();
-    res.json(data);
+    const response = await axios.get(
+      "https://oauth.reddit.com/r/popular.json",
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          "User-Agent": USER_AGENT,
+        },
+      }
+    );
+    res.json(response.data);
   } catch (err) {
-    console.error("Fetch error:", err);
+    console.error("Reddit API error:", err.response?.data || err.message);
     res.status(500).json({ error: "Failed to fetch Reddit data" });
   }
 });
 
-// Fetch comments for a specific post
+// Fetch comments for a post (OAuth2)
 app.get("/comments/:subreddit/:id", async (req, res) => {
   const { subreddit, id } = req.params;
   try {
     await delay(1000);
-    const response = await fetch(
-      `https://www.reddit.com/r/${subreddit}/comments/${id}.json`,
-      { headers: redditHeaders }
+    const response = await axios.get(
+      `https://oauth.reddit.com/r/${subreddit}/comments/${id}.json`,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          "User-Agent": USER_AGENT,
+        },
+      }
     );
-
-    if (!response.ok) {
-      console.error(
-        "Reddit comments API error:",
-        response.status,
-        response.statusText
-      );
-      return res.status(500).json({ error: "Failed to fetch Reddit comments" });
-    }
-
-    const data = await response.json();
-    res.json(data[1].data.children); // Comments only
+    res.json(response.data[1].data.children); // Comments only
   } catch (err) {
-    console.error("Fetch error:", err);
-    res.status(500).json({ error: "Failed to fetch Reddit comments" });
+    console.error("Reddit comments error:", err.response?.data || err.message);
+    res.status(500).json({ error: "Failed to fetch comments" });
   }
 });
 
-// Fetch popular subreddits
+// Fetch popular subreddits (OAuth2)
 app.get("/api/subreddits", async (req, res) => {
   try {
     await delay(1000);
-    const response = await fetch(
-      "https://www.reddit.com/subreddits/popular.json?limit=20",
+    const response = await axios.get(
+      "https://oauth.reddit.com/subreddits/popular.json?limit=20",
       {
-        headers: redditHeaders,
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          "User-Agent": USER_AGENT,
+        },
       }
     );
-
-    if (!response.ok) {
-      console.error(
-        "Reddit subreddits API error:",
-        response.status,
-        response.statusText
-      );
-      return res.status(500).json({ error: "Failed to fetch subreddits" });
-    }
-
-    const data = await response.json();
-    res.json(data);
+    res.json(response.data);
   } catch (err) {
-    console.error("Fetch error:", err);
+    console.error("Subreddits error:", err.response?.data || err.message);
     res.status(500).json({ error: "Failed to fetch subreddits" });
   }
 });
 
-// Fetch posts from a specific subreddit
+// Fetch posts from a subreddit (OAuth2)
 app.get("/api/subreddit/:name", async (req, res) => {
   const { name } = req.params;
   try {
     await delay(1000);
-    const response = await fetch(`https://www.reddit.com/r/${name}.json`, {
-      headers: redditHeaders,
-    });
-
-    if (!response.ok) {
-      console.error(
-        "Reddit subreddit API error:",
-        response.status,
-        response.statusText
-      );
-      return res.status(500).json({ error: "Failed to fetch subreddit posts" });
-    }
-
-    const data = await response.json();
-    res.json(data);
+    const response = await axios.get(
+      `https://oauth.reddit.com/r/${name}.json`,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          "User-Agent": USER_AGENT,
+        },
+      }
+    );
+    res.json(response.data);
   } catch (err) {
-    console.error("Reddit fetch error:", err);
+    console.error("Subreddit error:", err.response?.data || err.message);
     res.status(500).json({ error: "Failed to fetch subreddit posts" });
   }
 });

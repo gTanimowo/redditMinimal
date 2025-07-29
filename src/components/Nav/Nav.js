@@ -27,7 +27,6 @@ const Nav = ({ navSubreddit }) => {
         </button>
       )}
 
-
       <nav
         className={`${styles.nav} ${
           isTablet ? (isOpen ? styles.navOpen : styles.navClosed) : ""

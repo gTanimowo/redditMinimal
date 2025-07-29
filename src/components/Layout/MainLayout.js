@@ -7,6 +7,7 @@ import styles from "./MainLayout.module.css";
 const MainLayout = ({ nav }) => {
   const [isTablet, setIsTablet] = useState(window.innerWidth <= 1024);
 
+
   useEffect(() => {
     const handleResize = () => setIsTablet(window.innerWidth <= 1024);
     window.addEventListener("resize", handleResize);
@@ -29,7 +30,7 @@ const MainLayout = ({ nav }) => {
           </div>
         )}
 
-        {isTablet && <Nav navSubreddit={nav} />}
+        {isTablet && <Nav navSubreddit={nav}  />}
       </div>
     </>
   );
