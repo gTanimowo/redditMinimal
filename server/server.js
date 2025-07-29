@@ -6,7 +6,17 @@ const axios = require("axios");
 const app = express();
 const PORT = 5000;
 
-app.use(cors());
+const corsOptions = {
+  origin: [
+    'https://redditminimall.netlify.app', 
+    'http://localhost:3000' 
+  ],
+  methods: ['GET', 'HEAD'], 
+  credentials: false, 
+  optionsSuccessStatus: 200
+};
+
+app.use(cors(corsOptions)); // Apply CORS with these options
 
 const CLIENT_ID = process.env.REDDIT_CLIENT_ID;
 const CLIENT_SECRET = process.env.REDDIT_CLIENT_SECRET;
